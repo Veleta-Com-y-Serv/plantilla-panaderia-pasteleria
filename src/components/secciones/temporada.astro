@@ -1,0 +1,41 @@
+---
+// «El año en el mostrador» (la firma de la plantilla): banda de tinta con los `dulces` de temporada como paradas sobre
+// un filete de oro que cruza la banda: el mes en letra menuda dorada, el dulce en Yeseva One y una línea. En escritorio
+// van en una fila; en móvil, en una línea vertical. Un script mínimo marca la parada del mes en curso (si su `mes`
+// nombra el mes de hoy); sin JavaScript se ve igual, sin la marca. Sin dulces, solo la cabeza.
+import { seccion } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const n = Math.min(Math.max(s?.dulces.length ?? 0, 1), 6);
+---
+
+{
+  s && (s.titulo || s.texto || s.dulces.length > 0) && (
+    <Banda id={Astro.props.id} color="tinta">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} cabeza />
+      {s.dulces.length > 0 && (
+        <ol class="anio" style={`--n:${n}`} data-anio>
+          {s.dulces.map((x) => (
+            <li class="anio-parada" data-mes={x.mes.toLowerCase()}>
+              <span class="anio-punto" aria-hidden="true" />
+              {x.mes && <p class="anio-mes menuda">{x.mes}</p>}
+              {x.nombre && <h3 class="anio-nombre">{x.nombre}</h3>}
+              {x.texto && <p class="anio-texto">{x.texto}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
+    </Banda>
+  )
+}
+<script is:inline>
+  (function () {
+    var meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    var hoy = meses[new Date().getMonth()];
+    document.querySelectorAll('[data-anio] [data-mes]').forEach(function (li) {
+      if (li.getAttribute('data-mes').indexOf(hoy) !== -1) li.classList.add('es-ahora');
+    });
+  })();
+</script>

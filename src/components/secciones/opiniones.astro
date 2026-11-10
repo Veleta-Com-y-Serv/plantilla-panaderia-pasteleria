@@ -1,0 +1,33 @@
+---
+// «Opiniones»: banda clara con la primera opinión como frase grande en Yeseva One y el autor en letra menuda; las
+// demás en columnas con filete de oro. Sin estrellas ni notas. Sin opiniones, la sección no se pinta.
+import { seccion } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const [primera, ...resto] = s?.testimonios ?? [];
+const pie = (o: { autor: string; nota?: string }) => [o.autor, o.nota].filter(Boolean).join(', ');
+---
+
+{
+  s && primera && (
+    <Banda id={Astro.props.id} color="papel">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} cabeza />
+      <figure class="cita">
+        <blockquote>«{primera.texto}»</blockquote>
+        {pie(primera) && <figcaption class="cita-autor menuda">{pie(primera)}</figcaption>}
+      </figure>
+      {resto.length > 0 && (
+        <ul class="opiniones-resto">
+          {resto.map((o) => (
+            <li>
+              <p class="opinion-texto">«{o.texto}»</p>
+              {pie(o) && <p class="opinion-autor menuda">{pie(o)}</p>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </Banda>
+  )
+}

@@ -1,0 +1,52 @@
+---
+// «Horario»: a la izquierda el titular con filete de tinta, el texto, la dirección en Yeseva One y los botones (cómo
+// llegar y llamar); a la derecha la etiqueta: un pozo cuadrado con borde de tinta, filete de oro por dentro y sombra
+// dura de papel, con el `horario` {dia, horas} en filas (días en letra menuda, horas en Yeseva One). Sin `horario`,
+// usa `contacto.horario`. Las horas con «Cerrado» salen apagadas.
+import { seccion, site, tel, mapa } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const filas = s?.horario ?? [];
+---
+
+{
+  s && (
+    <Banda id={Astro.props.id} color="clara">
+      <div class="horario-rejilla">
+        <div class="titular">
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="titular--suelto" />
+          {c.direccion && <p class="direccion">{c.direccion}</p>}
+          {(c.direccion || c.telefono) && (
+            <div class="botones">
+              {c.direccion && <a class="btn-sec" href={mapa(c.direccion)} rel="noopener" target="_blank">Cómo llegar</a>}
+              {c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+            </div>
+          )}
+        </div>
+        {(filas.length > 0 || c.horario) && (
+          <div class="pozo">
+            <p class="etiqueta-titulo">{site.nombre}</p>
+            {filas.length > 0 ? (
+              <table class="horario">
+                <caption class="sr-only">Horario de apertura</caption>
+                <tbody>
+                  {filas.map((h) => (
+                    <tr class:list={{ cerrado: /cerrado/i.test(h.horas) }}>
+                      <th scope="row">{h.dia}</th>
+                      <td>{h.horas}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p class="horario-suelto">{c.horario}</p>
+            )}
+          </div>
+        )}
+      </div>
+    </Banda>
+  )
+}

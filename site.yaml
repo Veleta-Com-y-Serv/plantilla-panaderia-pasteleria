@@ -1,0 +1,215 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas siempre planas (nunca una lista dentro de un elemento de lista). Precios siempre entre comillas.
+nombre: Panadería Arribas
+eslogan: Pan de leña, bollería y tartas por encargo en Medina del Campo.
+sector: panaderia
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = nombre en texto.
+colores:
+  primario: "#442415"
+  acento: "#c9212e"
+  fondo: "#f6e9d5"
+  texto: "#3a1e0e"
+contacto:
+  telefono: "983 000 000"
+  email: hola@panaderiaarribas.es
+  direccion: Calle Padilla 18, 47400 Medina del Campo (Valladolid)
+  horario: "De lunes a viernes, de 7:00 a 14:30 y de 17:00 a 20:30. Sábados, de 7:30 a 14:30. Domingos y festivos, de 8:00 a 14:00."
+  whatsapp: "+34 600 000 000"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Del horno, url: "/#horno" }
+  - { texto: Tartas, url: "/#tartas" }
+  - { texto: Temporada, url: "/#temporada" }
+  - { texto: El obrador, url: "/#obrador" }
+  - { texto: Horario, url: "/#horario" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Encargar una tarta, url: "/#tartas" }
+seo:
+  titulo: Panadería Arribas · Horno de leña en Medina del Campo
+  descripcion: "Pan de masa madre cocido en horno de leña, bollería y tartas por encargo en Medina del Campo (Valladolid). Encarga por teléfono o WhatsApp."
+  tipo: Bakery
+marca_pie: true
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Horno de leña en la calle Padilla
+    titulo: Pan de leña y dulces de siempre
+    texto: "Masa madre, bollería y tartas por encargo, recién hechas cada mañana."
+    imagen: /fotos/hero.jpg
+    pie_foto: La primera hornada sale a las siete
+    cta: { texto: Encargar una tarta, url: "/#tartas" }
+    cta_secundario: { texto: Ver el horario, url: "/#horario" }
+    items:
+      - { titulo: Masa madre propia }
+      - { titulo: Horno de leña }
+      - { titulo: Tartas por encargo }
+      - { titulo: Reparto a bares y tiendas }
+
+  horno:
+    activa: true
+    antetitulo: Del obrador al mostrador
+    titulo: Lo que sale del horno cada día
+    texto: "Pan de masa madre, bollería de mantequilla y pastas de toda la vida. Lo que se acaba, se acaba: mañana hay más."
+    marca_destacado: La más pedida
+    hornada:
+      - { nombre: Hogaza de masa madre, texto: "De un kilo, corteza gruesa y miga húmeda. Aguanta varios días.", precio: "3,40 €", categoria: Pan, destacado: true }
+      - { nombre: Pan lechuguino, texto: "El de siempre en Valladolid, con su dibujo de hojas.", precio: "1,10 €", categoria: Pan }
+      - { nombre: Barra de leña, texto: "Crujiente y de miga alveolada.", precio: "1,20 €", categoria: Pan }
+      - { nombre: Pan de centeno y nueces, texto: "Los viernes y sábados.", precio: "2,80 €", categoria: Pan }
+      - { nombre: Croissant de mantequilla, texto: "Hojaldrado a mano cada madrugada.", precio: "1,30 €", categoria: Bollería }
+      - { nombre: Napolitana de chocolate, precio: "1,40 €", categoria: Bollería }
+      - { nombre: Magdalenas de la abuela, texto: "Media docena, con aceite de oliva.", precio: "3,20 €", categoria: Bollería, destacado: true }
+      - { nombre: Palmera de hojaldre, texto: "Con azúcar o bañada en chocolate.", precio: "1,60 €", categoria: Bollería }
+      - { nombre: Milhojas de crema, precio: "2,50 €", categoria: Pastelería }
+      - { nombre: Lazos de hojaldre, texto: "Por unidad o en bandeja.", precio: "0,90 €", categoria: Pastelería }
+      - { nombre: Rosquillas de anís, texto: "La docena, fritas en el obrador.", precio: "4,50 €", categoria: Pastelería }
+      - { nombre: Tarta de queso, texto: "La porción. Entera, por encargo.", precio: "3,00 €", categoria: Pastelería }
+
+  obrador:
+    activa: true
+    antetitulo: El obrador
+    titulo: Tres generaciones en el mismo horno
+    desde: "1962"
+    declaracion: "Harina de la comarca, masa madre de la casa y las horas de reposo que pide cada pan."
+    texto: |
+      Julián Arribas encendió este horno de leña en la calle Padilla en 1962. Hoy lo llevan sus nietos: Laura en la pastelería y Diego en el pan.
+
+      Seguimos amasando de madrugada y cociendo con leña de encina. La masa madre es la misma que empezó el abuelo, alimentada cada día.
+
+      Si algo nos sale distinto un día, es porque se hace a mano. Y eso, en Medina, se nota.
+    imagen: /fotos/obrador.jpg
+    items:
+      - { titulo: Masa madre de la casa, texto: "La misma desde hace décadas, alimentada cada mañana." }
+      - { titulo: Harina de Tierra de Campos, texto: "De molinos de la provincia, sin mejorantes." }
+      - { titulo: Sin prisas, texto: "El pan reposa toda la noche antes de entrar al horno." }
+
+  temporada:
+    activa: true
+    antetitulo: Dulces de temporada
+    titulo: El año en el mostrador
+    texto: "Cada época tiene su dulce. Resérvalo con tiempo: los hacemos por encargo y vuelan."
+    dulces:
+      - { mes: Enero, nombre: Roscón de Reyes, texto: "De nata, de trufa o sin relleno. Se encarga desde diciembre." }
+      - { mes: Marzo y abril, nombre: Torrijas, texto: "De leche y de vino, toda la Semana Santa." }
+      - { mes: Septiembre, nombre: Rosquillas de feria, texto: "Para las fiestas de San Antolín." }
+      - { mes: Noviembre, nombre: Buñuelos y huesos de santo, texto: "Para Todos los Santos, rellenos de crema o de nata." }
+      - { mes: Diciembre, nombre: Turrones y mantecados, texto: "Hechos en el obrador, a granel o en caja para regalar." }
+
+  tartas:
+    activa: true
+    antetitulo: Por encargo
+    titulo: Tartas para cada celebración
+    texto: "Cumpleaños, bautizos, comuniones o una merienda en casa. Dinos para cuántos y te la tenemos lista."
+    tartas:
+      - nombre: Tarta de San Marcos
+        texto: "Bizcocho, nata y yema tostada al fuego."
+        raciones: "8 a 12 raciones"
+        precio: "24,00 €"
+        imagen: /fotos/tarta-san-marcos.jpg
+        imagenes: "/fotos/galeria-2.jpg"
+        detalle: |
+          La tarta de San Marcos es la más pedida en el obrador y la que más cumpleaños ha visto pasar. Lleva dos capas de bizcocho tierno, nata montada en el momento y una capa de yema que tostamos al fuego, con su punto de caramelo por encima.
+
+          La hacemos el mismo día de la entrega, para que la nata esté fresca y la yema conserve su brillo. Si la quieres con un mensaje, te lo escribimos con chocolate sobre la yema.
+
+          Para conservarla, guárdala en la nevera y sácala un rato antes de servirla. Se corta mejor con un cuchillo pasado por agua caliente.
+
+          Encárgala con dos días de antelación por teléfono o por WhatsApp. Si es para un grupo grande, pregúntanos y te preparamos varias del mismo tamaño o una bandeja rectangular.
+      - nombre: Tarta de chocolate y avellana
+        texto: "Bizcocho de cacao, crema de avellana y cobertura de chocolate negro."
+        raciones: "10 a 14 raciones"
+        precio: "28,00 €"
+        imagen: /fotos/tarta-chocolate.jpg
+        detalle: |
+          Para los que no perdonan el chocolate. El bizcocho es de cacao y va empapado en un almíbar suave; entre capa y capa, una crema de avellanas tostadas en el obrador, y por fuera, una cobertura de chocolate negro que cruje al cortar.
+
+          Es la tarta que más nos piden para los cumpleaños de los chavales y la que mejor aguanta un viaje en coche hasta el pueblo.
+
+          Podemos hacerla sin avellana si hay alergia a los frutos secos: avísanos al encargarla y la preparamos aparte, con una crema de chocolate con leche.
+
+          Encárgala con dos días de antelación. Si quieres velas, número o un mensaje encima, dínoslo y te la entregamos lista para la mesa.
+      - nombre: Tarta de queso al horno
+        texto: "Cremosa por dentro y tostada por fuera, sin base de galleta."
+        raciones: "8 a 10 raciones"
+        precio: "26,00 €"
+        imagen: /fotos/tarta-queso.jpg
+        detalle: |
+          Una tarta de queso al estilo de las de horno alto: sin base, con la superficie bien tostada y el centro cremoso, casi líquido si la comes templada.
+
+          Usamos queso fresco de vaca, nata, huevos y muy poco azúcar. Nada más. Sale del horno temblando y la dejamos reposar unas horas para que asiente.
+
+          Si la prefieres más cuajada, dínoslo y la dejamos unos minutos más en el horno. Acompaña bien con unos frutos rojos o con un poco de mermelada de la casa.
+
+          Encárgala con dos días de antelación y recógela en el horno. Si la guardas en la nevera, sácala media hora antes de comerla para que recupere la textura.
+    items:
+      - { titulo: Elige la tarta, texto: "Una de las nuestras o la que tengas en mente: te decimos si podemos hacerla." }
+      - { titulo: Dinos el día y para cuántos, texto: "Con 48 horas de antelación, y si hay alergias o intolerancias." }
+      - { titulo: Recógela en el horno, texto: "Te la dejamos lista y en su caja a la hora que nos digas." }
+    cta: { texto: Encargar por WhatsApp, url: "https://wa.me/34600000000?text=Hola%2C%20quiero%20encargar%20una%20tarta" }
+    cta_secundario: { texto: Llamar al horno, url: "tel:+34983000000" }
+    nota: "Tartas con foto, nombre o forma especial: con una semana de antelación."
+
+  reparto:
+    activa: true
+    antetitulo: Para hostelería y tiendas
+    titulo: Pan para bares, tiendas y restaurantes
+    texto: "Repartimos cada mañana antes de las nueve en Medina y los pueblos de alrededor."
+    items:
+      - { titulo: Pan del día, texto: "Barras, hogazas y pan de molde, a diario y a la hora que abres." }
+      - { titulo: Bollería para desayunos, texto: "Croissants, napolitanas y magdalenas para tu barra." }
+      - { titulo: Pedidos a tu medida, texto: "Ajustamos el pedido a lo que vendes cada semana y lo cambias cuando quieras." }
+    cta: { texto: Pedir condiciones, url: "/#contacto" }
+
+  galeria:
+    activa: true
+    antetitulo: El horno por dentro
+    titulo: Un día en el obrador
+    galeria:
+      - /fotos/galeria-1.jpg
+      - /fotos/galeria-2.jpg
+      - /fotos/galeria-3.jpg
+      - /fotos/galeria-4.jpg
+      - /fotos/galeria-5.jpg
+    cta: { texto: Síguenos en Instagram, url: "https://www.instagram.com/" }
+
+  horario:
+    activa: true
+    antetitulo: Horario
+    titulo: Abrimos a las siete
+    texto: "En agosto cerramos dos semanas por vacaciones: lo avisamos en la puerta y en Instagram."
+    horario:
+      - { dia: Lunes a viernes, horas: "7:00 a 14:30 y 17:00 a 20:30" }
+      - { dia: Sábados, horas: "7:30 a 14:30" }
+      - { dia: Domingos y festivos, horas: "8:00 a 14:00" }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen en el barrio
+    testimonios:
+      - { texto: "La hogaza de masa madre aguanta toda la semana y sigue buena. Venimos desde Rueda solo por el pan.", autor: Marisa G., nota: Google }
+      - { texto: "Encargamos la tarta de San Marcos para la comunión y no sobró ni un trozo.", autor: Javier M., nota: Google }
+      - { texto: "Las magdalenas saben a las de antes. Y te atienden con una sonrisa a las siete de la mañana.", autor: Puri L. }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Antes de venir
+    preguntas:
+      - { pregunta: "¿Con cuánta antelación encargo una tarta?", respuesta: "Con 48 horas basta para las tartas de la carta. Si quieres foto, nombre o una forma especial, mejor con una semana." }
+      - { pregunta: "¿Tenéis pan sin gluten?", respuesta: "Lo hacemos por encargo, con 24 horas de antelación. Ojo: en el obrador se trabaja con harina de trigo, así que si eres celíaco pregúntanos antes." }
+      - { pregunta: "¿Me guardáis el pan si llego tarde?", respuesta: "Claro. Llámanos o escríbenos por WhatsApp y te lo dejamos apartado con tu nombre hasta el cierre." }
+      - { pregunta: "¿Servís a bares y tiendas?", respuesta: "Sí, repartimos cada mañana en Medina y los pueblos de alrededor. Escríbenos y te contamos cómo trabajamos." }
+      - { pregunta: "¿Se puede pagar con tarjeta?", respuesta: "Sí, con tarjeta y con el móvil, también en los encargos." }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Encarga o pregunta lo que quieras
+    texto: "Por teléfono o WhatsApp te contestamos al momento. Si lo prefieres, déjanos un mensaje."

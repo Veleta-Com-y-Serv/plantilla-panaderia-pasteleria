@@ -1,0 +1,42 @@
+---
+// «Lo que sale del horno»: cabeza con filete de tinta y, debajo, la `hornada` agrupada por `categoria` (en el orden en
+// que aparece) en columnas, cada pieza en una fila con filete de puntos de oro: nombre, precio en Yeseva One (si lo
+// hay) y una línea. `destacado: true` pone la marca (`marca_destacado`, por defecto «La más pedida») en bermellón.
+// Sin piezas, solo la cabeza; sin nada, no se pinta.
+import { seccion, agrupar } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const grupos = s ? agrupar(s.hornada, (p) => p.categoria) : [];
+const marca = String(s?.marca_destacado ?? '').trim() || 'La más pedida';
+---
+
+{
+  s && (s.titulo || s.texto || s.hornada.length > 0) && (
+    <Banda id={Astro.props.id} color="papel">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} cabeza />
+      {grupos.length > 0 && (
+        <div class="hornada">
+          {grupos.map((g) => (
+            <div class="hornada-grupo">
+              {g.grupo && <h3>{g.grupo}</h3>}
+              <ul>
+                {g.items.map((p) => (
+                  <li class="hornada-pieza">
+                    <div class="hornada-linea">
+                      <span class="hornada-nombre">{p.nombre}</span>
+                      {p.precio && <span class="hornada-precio">{p.precio}</span>}
+                    </div>
+                    {p.texto && <p class="hornada-texto">{p.texto}</p>}
+                    {p.destacado && <p class="hornada-marca menuda">{marca}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </Banda>
+  )
+}

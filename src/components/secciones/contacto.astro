@@ -1,0 +1,49 @@
+---
+// «Contacto»: banda clara partida: a la izquierda el titular con filete de tinta y las vías (teléfono, WhatsApp, email
+// y dirección) en filas grandes en Yeseva One; a la derecha el formulario (mailto) dentro de un pozo cuadrado con
+// borde de tinta, filete de oro y sombra dura de papel.
+import { seccion, site, tel, whatsapp, mapa } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+import Banda from '../ui/Banda.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const vias = [
+  c.telefono && { etiqueta: 'Teléfono', dato: c.telefono, url: tel(c.telefono), icono: 'telefono', fuera: false },
+  c.whatsapp && { etiqueta: 'WhatsApp', dato: c.whatsapp, url: whatsapp(c.whatsapp, `Hola, os escribo desde la web de ${site.nombre}`), icono: 'whatsapp', fuera: true },
+  c.email && { etiqueta: 'Email', dato: c.email, url: `mailto:${c.email}`, icono: 'correo', fuera: false },
+  c.direccion && { etiqueta: 'Dirección', dato: c.direccion, url: mapa(c.direccion), icono: 'mapa', fuera: true },
+].filter(Boolean) as { etiqueta: string; dato: string; url: string; icono: string; fuera: boolean }[];
+---
+
+{
+  s && (
+    <Banda id={Astro.props.id} color="papel">
+      <div class="contacto-rejilla">
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="titular--suelto" />
+          {vias.length > 0 && (
+            <ul class="vias">
+              {vias.map((v) => (
+                <li>
+                  <a href={v.url} {...(v.fuera && { rel: 'noopener', target: '_blank' })}>
+                    <span class="vias-icono"><Icono nombre={v.icono} tam={20} /></span>
+                    <span class="min-w-0">
+                      <span class="menuda block">{v.etiqueta}</span>
+                      <span class="vias-dato">{v.dato}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div class="pozo">
+          <FormularioContacto prefijo={`c-${Astro.props.id}`} boton="Enviar mensaje" />
+        </div>
+      </div>
+    </Banda>
+  )
+}

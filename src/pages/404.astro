@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base titulo="Página no encontrada">
+  <section class="banda banda--papel min-h-[70svh] flex items-center">
+    <div class="contenedor grid items-center gap-8 md:grid-cols-[auto_1fr] md:gap-16">
+      <p class="error-cifra" aria-hidden="true">404</p>
+      <div class="titular">
+        <p class="antetitulo">Página no encontrada</p>
+        <h1 class="titulo-seccion">Esta bandeja está vacía</h1>
+        <p class="entrada">Puede que el enlace esté mal o que la página se haya movido. Vuelve al inicio: el pan sigue saliendo del horno.</p>
+        <div class="botones">
+          <a class="btn" href="/">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,118 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: panaderia-pasteleria
+nombre: Panadería y pastelería
+descripcion: "Web de almanaque para hornos y pastelerías: pan del día, tartas por encargo y dulces de temporada."
+sectores:
+  - { id: panaderia, nombre: Panadería }
+  - { id: pasteleria, nombre: Pastelería }
+  - { id: horno, nombre: Horno y obrador }
+  - { id: confiteria, nombre: Confitería }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: horno, nombre: Del horno }
+  - { id: obrador, nombre: El obrador }
+  - { id: temporada, nombre: Dulces de temporada }
+  - { id: tartas, nombre: Tartas por encargo }
+  - { id: reparto, nombre: Reparto a hostelería }
+  - { id: galeria, nombre: Fotos }
+  - { id: horario, nombre: Horario }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: contacto, nombre: Contacto }
+estilo: solstice
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-panaderia-pasteleria.noexpertise.com
+activa: true
+orden: 670
+
+# Fichas por elemento (docs/plantillas.md § Fichas por elemento): cada tarta con `detalle` tiene su página en /tartas/<slug>/.
+fichas:
+  - { lista: tartas, campo: tartas, ruta: tartas, nombre: Tarta, tipo: Product }
+
+# Varias páginas (docs/plantillas.md § Varias páginas): reparto recomendado al activar «Varias páginas».
+# Inicio se queda con la portada y lo que no esté en ninguna página (aquí, las fotos y las opiniones).
+paginas:
+  - { ruta: el-horno, titulo: El horno, secciones: "horno; temporada" }
+  - { ruta: tartas, titulo: Tartas, secciones: "tartas" }
+  - { ruta: el-obrador, titulo: El obrador, secciones: "obrador; reparto" }
+  - { ruta: contacto, titulo: Horario y contacto, secciones: "horario; preguntas; contacto" }
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu horno"
+    pregunta: "¿Cómo se llama tu panadería o pastelería y qué la hace especial?"
+    ayuda: "Por ejemplo: horno de leña, masa madre, tartas por encargo o un dulce típico del pueblo, y en qué calle o barrio estáis."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde estáis y cómo os pueden llamar o escribir para hacer un encargo?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Si usáis WhatsApp para los encargos, ponlo: saldrá un botón para encargar."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: horno
+    titulo: "Lo que sale del horno"
+    pregunta: "Cuéntame el pan, la bollería y los pasteles que hacéis cada día: uno por línea, con el precio si quieres."
+    ayuda: "Puedes poner delante el grupo (Pan, Bollería, Pastelería, Salados). Por ejemplo: «Pan · Hogaza de masa madre de un kilo · 3,40 €»."
+    tipo: lista
+    campos: [secciones.horno.hornada]
+  - id: obrador
+    titulo: "Vuestra historia"
+    pregunta: "¿Desde cuándo abrís, quién está detrás del obrador y cómo trabajáis?"
+    ayuda: "Por ejemplo: el horno lo abrió el abuelo en 1962, la masa madre es de la casa, la harina es de molinos de la zona."
+    tipo: texto
+    campos: [secciones.obrador.titulo, secciones.obrador.desde, secciones.obrador.declaracion, secciones.obrador.texto, secciones.obrador.items]
+  - id: tartas
+    titulo: "Tus tartas"
+    pregunta: "¿Qué tartas hacéis por encargo? Una por línea, con para cuántas personas y el precio si quieres."
+    ayuda: "Por ejemplo: «Tarta de San Marcos, de 8 a 12 raciones, 24 €». Luego puedes poner la foto de cada una."
+    tipo: lista
+    campos: [secciones.tartas.tartas]
+  - id: encargos
+    titulo: "Cómo se encarga"
+    pregunta: "¿Cómo se hace un encargo? Con cuánta antelación, por dónde y cómo se recoge."
+    ayuda: "Por ejemplo: con dos días de antelación, por WhatsApp o en el mostrador, y se recoge en el horno a la hora que digan."
+    tipo: texto
+    campos: [secciones.tartas.titulo, secciones.tartas.texto, secciones.tartas.items, secciones.tartas.nota]
+  - id: temporada
+    titulo: "Dulces de temporada"
+    pregunta: "¿Qué dulces hacéis según la época del año? Dime el mes y el dulce, uno por línea."
+    ayuda: "Por ejemplo: roscón en enero, torrijas en Semana Santa, buñuelos en Todos los Santos, turrones en Navidad. Si no hacéis, salta este paso."
+    tipo: lista
+    campos: [secciones.temporada.dulces]
+  - id: reparto
+    titulo: "Reparto a bares y tiendas"
+    pregunta: "¿Servís pan o bollería a bares, restaurantes o tiendas? Cuéntame qué y por dónde repartís."
+    ayuda: "Si no repartís, salta este paso y luego oculta el apartado en Contenido."
+    tipo: texto
+    campos: [secciones.reparto.titulo, secciones.reparto.texto, secciones.reparto.items]
+  - id: horario
+    titulo: "Horario"
+    pregunta: "¿Qué días y a qué horas abrís?"
+    ayuda: "Por ejemplo: de lunes a viernes, de 7:00 a 14:30 y de 17:00 a 20:30; domingos, solo por la mañana."
+    tipo: lista
+    campos: [secciones.horario.horario]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más en el mostrador o por teléfono? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Por ejemplo: con cuánta antelación se encarga una tarta, si hay pan sin gluten, si guardáis el pan o si se paga con tarjeta."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada y, si quieres, las de tu obrador, tus tartas y tu mostrador."
+    ayuda: "Sube las tuyas o elige una del banco. Las fotos con luz de mañana y de cerca quedan mejor. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.obrador.imagen, secciones.galeria.galeria]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

@@ -1,0 +1,149 @@
+---
+// Ficha de un elemento con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /tartas/<slug>/.
+// Diseño «almanaque»: migas en letra menuda y portada partida (texto con raciones y precio, botones de encargar; a la
+// derecha la foto vertical a sangre); banda clara con el `detalle` en párrafos y, al lado, la etiqueta (pozo con borde
+// de tinta, filete de oro y sombra dura) con los datos y el encargo; fotos de `imagenes`; y otras tartas.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { altGaleria, jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+import { enlace, rutaDeSeccion } from '../../lib/multipagina';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.titulo || f.seccion.antetitulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: rutaDeSeccion(f.idSeccion) },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const wa = whatsapp(c.whatsapp, `Hola, quiero encargar la ${f.titulo.toLowerCase()}`);
+const encargar = wa
+  ? { texto: 'Encargar por WhatsApp', url: wa, fuera: true }
+  : c.telefono
+    ? { texto: `Llamar al ${c.telefono}`, url: tel(c.telefono), fuera: false }
+    : { texto: 'Escríbenos', url: enlace('/#contacto'), fuera: false };
+const raciones = f.datos.find((d) => d.clave === 'raciones')?.valor ?? '';
+const datos = f.datos.filter((d) => d.clave !== 'precio' && d.clave !== 'raciones');
+const otras = relacionadas(f, 3);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+const nota = String(seccion(f.idSeccion)?.nota ?? '').trim();
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class:list={['portada', 'ficha-portada', { 'portada--con-foto': f.imagen }]}>
+    <div class="portada-texto">
+      <nav aria-label="Migas de pan" class="migas menuda">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <h1 class="portada-titulo">{f.titulo}</h1>
+      {f.texto && <p class="portada-parrafo">{f.texto}</p>}
+      {(raciones || f.precio) && (
+        <p class="tarta-datos ficha-datos-portada">
+          <span class="menuda">{raciones}</span>
+          {f.precio && <span class="tarta-precio">{f.precio}</span>}
+        </p>
+      )}
+      <div class="botones">
+        <a class="btn" href={encargar.url} {...(encargar.fuera && { rel: 'noopener', target: '_blank' })}>{encargar.texto}</a>
+        {wa && c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+      </div>
+    </div>
+    {f.imagen && (
+      <div class="portada-foto foto">
+        <Imagen src={f.imagen} alt={f.titulo} ancho={1200} alto={1500} prioridad />
+      </div>
+    )}
+  </section>
+
+  <section class="banda banda--clara">
+    <div class="contenedor ficha-cuerpo">
+      <article class="ficha-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      <aside class="pozo ficha-lado">
+        <p class="etiqueta-titulo">{f.titulo}</p>
+        {(datos.length > 0 || f.precio || raciones) && (
+          <table class="horario">
+            <caption class="sr-only">Datos de la tarta</caption>
+            <tbody>
+              {raciones && <tr><th scope="row">Raciones</th><td>{raciones}</td></tr>}
+              {f.precio && <tr><th scope="row">Precio</th><td>{f.precio}</td></tr>}
+              {datos.map((d) => <tr><th scope="row">{d.etiqueta}</th><td>{d.valor}</td></tr>)}
+            </tbody>
+          </table>
+        )}
+        <div class="botones">
+          <a class="btn" href={encargar.url} {...(encargar.fuera && { rel: 'noopener', target: '_blank' })}>{encargar.texto}</a>
+        </div>
+        {nota && <p class="nota menuda">{nota}</p>}
+      </aside>
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="banda banda--papel" aria-label={`Fotos de ${f.titulo}`}>
+      <div class="contenedor">
+        <ul class="ficha-fotos">
+          {f.imagenes.map((src, i) => (
+            <li class="foto"><Imagen src={src} alt={`${f.titulo}: ${altGaleria(i).toLowerCase()}`} ancho={1000} alto={750} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="banda banda--papel">
+      <div class="contenedor">
+        <div class="cabeza">
+          <h2 class="titulo-seccion">Otras tartas</h2>
+          <p class="entrada"><a class="btn-sec" href={rutaDeSeccion(f.idSeccion)}>Ver todas</a></p>
+        </div>
+        <ul class="tartas">
+          {otras.map((o) => (
+            <li class="tarta">
+              {o.imagen && <div class="foto"><Imagen src={o.imagen} alt={o.titulo} ancho={900} alto={1125} /></div>}
+              <h3><a href={o.url}>{o.titulo}</a></h3>
+              {o.texto && <p class="tarta-texto">{o.texto}</p>}
+              {o.precio && <p class="tarta-datos"><span class="menuda" /><span class="tarta-precio">{o.precio}</span></p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .ficha-portada .portada-texto { padding-top: 1.5rem; }
+  .migas { margin-bottom: 1.5rem; }
+  .migas ol { display: flex; flex-wrap: wrap; gap: .25rem .6rem; }
+  .migas li { display: inline-flex; align-items: center; gap: .6rem; min-width: 0; }
+  .migas li + li::before { content: "/"; color: var(--oro); }
+  .migas a { min-height: 2.75rem; display: inline-flex; align-items: center; color: var(--tinta-2); }
+  .migas [aria-current] { color: var(--apagado); }
+  .ficha-datos-portada { max-width: 30rem; margin-top: 1.75rem; }
+  .ficha-cuerpo { display: grid; gap: 3rem; }
+  .ficha-detalle { display: grid; gap: 1.2rem; max-width: 42rem; font-size: 1.1rem; line-height: 1.7; }
+  .ficha-detalle p:first-child { font-family: var(--fuente-titulos); font-size: clamp(1.3rem, 1.1rem + .8vw, 1.65rem); line-height: 1.35; color: var(--tinta); }
+  .ficha-lado .horario { margin-top: .5rem; }
+  .ficha-fotos { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .ficha-fotos .foto { aspect-ratio: 4 / 3; }
+  @media (min-width: 60rem) {
+    .ficha-cuerpo { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 5rem; align-items: start; }
+    .ficha-lado { position: sticky; top: calc(var(--alto-cabecera) + 2rem); }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+// «Un día en el obrador»: cabeza con filete de tinta (y el botón `cta`; sin él, a `redes.instagram`) y las fotos de
+// `galeria` en mosaico a todo el contenedor: la primera grande (7 de 12 columnas y dos filas), el resto cuadradas
+// sin radio. Sin fotos, no se pinta.
+import { seccion, site, externo } from '../../data/site';
+import { altGaleria } from '../../lib/seo';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const fotos = (s?.galeria ?? []).slice(0, 8);
+const boton = s?.cta?.url ? s.cta : site.redes.instagram ? { texto: 'Síguenos en Instagram', url: site.redes.instagram } : null;
+const n = fotos.length;
+---
+
+{
+  s && n > 0 && (
+    <Banda id={Astro.props.id} color="papel">
+      <div class="cabeza">
+        {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+        {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+        {boton && (
+          <p class="entrada">
+            <a class="btn-sec" href={boton.url} {...(externo(boton.url) && { rel: 'noopener', target: '_blank' })}>{boton.texto}</a>
+          </p>
+        )}
+      </div>
+      <ul class:list={['mosaico', `mosaico--${n}`, { 'mosaico--par': n % 2 === 0 }]}>
+        {fotos.map((src, i) => (
+          <li class="foto">
+            <Imagen src={src} alt={altGaleria(i)} ancho={i === 0 ? 1400 : 900} alto={i === 0 ? 1050 : 900} />
+          </li>
+        ))}
+      </ul>
+    </Banda>
+  )
+}

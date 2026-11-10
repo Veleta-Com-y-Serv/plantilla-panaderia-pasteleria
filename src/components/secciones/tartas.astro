@@ -1,0 +1,83 @@
+---
+// «Tartas por encargo»: cabeza con filete de tinta, las `tartas` en rejilla (foto vertical sin radio, nombre en Yeseva
+// One, una línea, raciones en letra menuda y precio si lo hay; con `detalle`, el nombre enlaza a su página
+// /tartas/<slug>/) y debajo «cómo encargar»: los `items` como pasos numerados y, al lado, el botón (`cta`, normalmente
+// WhatsApp; sin él, el WhatsApp o el teléfono de contacto), `cta_secundario` y `nota`.
+import { seccion, site, tel, whatsapp, externo } from '../../data/site';
+import { enlaceDe } from '../../lib/paginas';
+import { altFicha } from '../../lib/seo';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const t = (v: unknown) => (v == null ? '' : String(v).trim());
+const principal = s?.cta?.url
+  ? s.cta
+  : c.whatsapp
+    ? { texto: 'Encargar por WhatsApp', url: whatsapp(c.whatsapp, `Hola, quiero encargar una tarta en ${site.nombre}`) }
+    : c.telefono
+      ? { texto: `Llamar al ${c.telefono}`, url: tel(c.telefono) }
+      : null;
+const secundario = s?.cta_secundario?.url ? s.cta_secundario : null;
+---
+
+{
+  s && (
+    <Banda id={Astro.props.id} color="papel">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} cabeza />
+      {s.tartas.length > 0 && (
+        <ul class="tartas">
+          {s.tartas.map((tarta) => {
+            const url = enlaceDe(tarta);
+            return (
+              <li class="tarta">
+                {t(tarta.imagen) && (
+                  <div class="foto">
+                    <Imagen src={t(tarta.imagen)} alt={altFicha(tarta)} ancho={900} alto={1125} />
+                  </div>
+                )}
+                <h3>{url ? <a href={url}>{t(tarta.nombre)}</a> : t(tarta.nombre)}</h3>
+                {t(tarta.texto) && <p class="tarta-texto">{t(tarta.texto)}</p>}
+                {(t(tarta.raciones) || t(tarta.precio)) && (
+                  <p class="tarta-datos">
+                    <span class="menuda">{t(tarta.raciones)}</span>
+                    {t(tarta.precio) && <span class="tarta-precio">{t(tarta.precio)}</span>}
+                  </p>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {(s.items.length > 0 || principal || s.nota) && (
+        <div class="encargo">
+          {s.items.length > 0 ? (
+            <ol class="pasos" aria-label="Cómo encargar">
+              {s.items.map((it) => (
+                <li>
+                  <p class="pasos-titulo">{it.titulo}</p>
+                  {it.texto && <p class="pasos-texto">{it.texto}</p>}
+                </li>
+              ))}
+            </ol>
+          ) : <div />}
+          <div class="encargo-accion">
+            {(principal || secundario) && (
+              <div class="botones">
+                {principal && (
+                  <a class="btn" href={principal.url} {...(externo(principal.url) && { rel: 'noopener', target: '_blank' })}>{principal.texto}</a>
+                )}
+                {secundario && (
+                  <a class="btn-sec" href={secundario.url} {...(externo(secundario.url) && { rel: 'noopener', target: '_blank' })}>{secundario.texto}</a>
+                )}
+              </div>
+            )}
+            {s.nota && <p class="nota menuda">{s.nota}</p>}
+          </div>
+        </div>
+      )}
+    </Banda>
+  )
+}

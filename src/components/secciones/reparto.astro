@@ -1,0 +1,38 @@
+---
+// «Pan para bares y tiendas»: banda clara partida: a la izquierda el titular con filete de tinta, el texto y un botón
+// (`cta`; sin él, llamar); a la derecha los `items` {titulo, texto} como filas con filete (qué se sirve y cómo).
+import { seccion, site, tel, externo } from '../../data/site';
+import Banda from '../ui/Banda.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const boton = s?.cta?.url ? s.cta : c.telefono ? { texto: `Llamar al ${c.telefono}`, url: tel(c.telefono) } : null;
+---
+
+{
+  s && (
+    <Banda id={Astro.props.id} color="clara">
+      <div class="partido">
+        <div class="titular">
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="titular--suelto" />
+          {boton && (
+            <div class="botones">
+              <a class="btn-sec" href={boton.url} {...(externo(boton.url) && { rel: 'noopener', target: '_blank' })}>{boton.texto}</a>
+            </div>
+          )}
+        </div>
+        {s.items.length > 0 && (
+          <ul class="filas">
+            {s.items.map((it) => (
+              <li>
+                <p class="filas-titulo">{it.titulo}</p>
+                {it.texto && <p class="filas-texto">{it.texto}</p>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </Banda>
+  )
+}
